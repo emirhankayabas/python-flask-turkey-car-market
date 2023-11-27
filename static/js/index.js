@@ -111,7 +111,7 @@ function formatFiyat(fiyat, paraBirimi = "TRY", ondalikBasamaklar = 2) {
   });
 }
 
-function getCars(data) {
+function getCars(data, resultParse) {
   const url = "/api/cars" + data;
 
   $.get(
@@ -123,29 +123,43 @@ function getCars(data) {
         questionDiv.innerHTML = "<h2 class='headline'>Sonuç bulunamadı</h2>";
       }
 
-      response.forEach((car) => {
-        const brand = car["Marka"];
-        const model = car["Arac Tip"];
-        const fuel = car["Yakıt Turu"];
-        const color = car["Renk"];
-        const year = car["Model Yıl"];
-        const km = car["Km"];
-        const price = car["Fiyat"];
+      if (response.length > 1) {
+        const video = document.getElementById("video");
+        const videoSource = document.getElementById("videoSource");
 
-        const carDiv = document.createElement("div");
-        carDiv.innerHTML = `
-        <div class="result">
-          <h5>${brand} - ${model}</h5>
-          <p><span>Yakıt Türü:</span> ${fuel}</p>
-          <p><span>Renk:</span> ${color}</p>
-          <p><span>Model Yıl:</span> ${year}</p>
-          <p><span>Km:</span> ${km}</p>
-          <p><span>Fiyat:</span> ${formatFiyat(price)}</p>
-        </div>
-        `;
-        const questionDiv = document.getElementById("questions");
-        questionDiv.appendChild(carDiv);
-      });
+        videoSource.setAttribute("src", `/static/videos/${resultParse[0]}.mp4`);
+        video.classList.remove("d-none");
+        video.load();
+        video.play();
+
+        video.addEventListener("ended", () => {
+          video.classList.add("d-none");
+
+          response.forEach((car) => {
+            const brand = car["Marka"];
+            const model = car["Arac Tip"];
+            const fuel = car["Yakıt Turu"];
+            const color = car["Renk"];
+            const year = car["Model Yıl"];
+            const km = car["Km"];
+            const price = car["Fiyat"];
+
+            const carDiv = document.createElement("div");
+            carDiv.innerHTML = `
+          <div class="result">
+            <h5>${brand} - ${model}</h5>
+            <p><span>Yakıt Türü:</span> ${fuel}</p>
+            <p><span>Renk:</span> ${color}</p>
+            <p><span>Model Yıl:</span> ${year}</p>
+            <p><span>Km:</span> ${km}</p>
+            <p><span>Fiyat:</span> ${formatFiyat(price)}</p>
+          </div>
+          `;
+            const questionDiv = document.getElementById("questions");
+            questionDiv.appendChild(carDiv);
+          });
+        });
+      }
     },
     "json"
   );
@@ -159,13 +173,9 @@ function showResult() {
   const result = JSON.stringify(Object.values(answers), null, 2);
   const resultParse = JSON.parse(result);
   const url = `?marka=${resultParse[0]}&yakit=${resultParse[1]}&renk=${resultParse[2]}&vites=${resultParse[3]}&durum=${resultParse[4]}`;
-  getCars(url);
+  getCars(url, resultParse);
 
-  setTimeout(() => {
-    if (questionDiv.offsetHeight > 480) {
-      questionDiv.classList.add("scroll");
-    }
-  }, 100);
+  questionDiv.classList.add("scroll");
 }
 
 // İlk soruyu göster

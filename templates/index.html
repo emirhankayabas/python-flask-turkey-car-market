@@ -13,13 +13,17 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css') }}"
     />
-    <title>Seçim</title>
+    <title>Araba Seçim</title>
   </head>
   <body>
     <main>
       <div class="container" id="container">
         <h1 class="title">Araba Seçimi</h1>
         <div id="questions"></div>
+        <video width="100%" autoplay muted class="d-none" id="video">
+          <source src="" type="video/mp4" id="videoSource" />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </main>
 
