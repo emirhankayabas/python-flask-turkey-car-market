@@ -1,7 +1,7 @@
-# python-flask-turkey-car-market
+# Python + Flask Turkey Car Market
  Using Python + Flask, an artificial intelligence application that generates a list of cars based on the features entered.
 
-# usage
+# Installation
 <ul>
   <li>git clone https://github.com/emirhankayabas/python-flask-turkey-car-market</li>
   <li>pip install Flask</li>
