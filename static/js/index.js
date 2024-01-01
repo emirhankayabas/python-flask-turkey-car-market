@@ -1,5 +1,7 @@
+// Cevaplar
 const answers = {};
 
+// Sorular
 const questionList = [
   {
     key: "Marka",
@@ -23,23 +25,19 @@ const questionList = [
       "Kia",
       "Mazda",
       "Mini",
-      "Mitsubishi",
       "Nissan",
       "Opel",
       "Peugeot",
       "Porsche",
       "Seat",
       "Skoda",
-      "Subaru",
-      "Suzuki",
+      "Isuzu",
       "Chevrolet",
       "Citroen",
       "Chrysler",
       "Infiniti",
-      "Isuzu",
       "Lada",
       "Maserati",
-      "Tofaş",
     ],
   },
   {
@@ -79,8 +77,10 @@ const questionList = [
   },
 ];
 
+// Soru indexi
 let currentQuestionIndex = 0;
 
+// Soru Aşaması - Soruları göster
 function showQuestion() {
   const currentQuestion = questionList[currentQuestionIndex];
   const questionDiv = document.getElementById("questions");
@@ -111,6 +111,7 @@ function formatFiyat(fiyat, paraBirimi = "TRY", ondalikBasamaklar = 2) {
   });
 }
 
+// Sonuç Aşaması - Sonuçları göster
 function getCars(data, resultParse) {
   const url = "/api/cars" + data;
 
@@ -123,7 +124,7 @@ function getCars(data, resultParse) {
         questionDiv.innerHTML = "<h2 class='headline'>Sonuç bulunamadı</h2>";
       }
 
-      if (response.length > 1) {
+      if (response.length >= 1) {
         const video = document.getElementById("video");
         const videoSource = document.getElementById("videoSource");
 
@@ -161,7 +162,7 @@ function getCars(data, resultParse) {
         });
       }
     },
-    "json"
+    "json"  
   );
 }
 
@@ -169,8 +170,7 @@ function showResult() {
   const questionDiv = document.getElementById("questions");
   questionDiv.innerHTML = "<h2 class='headline'>Sonuçlar</h2>";
 
-  // Sadece cevapları JSON formatında consola yaz
-  const result = JSON.stringify(Object.values(answers), null, 2);
+  const result = JSON.stringify(Object.values(answers), null, 2); 
   const resultParse = JSON.parse(result);
   const url = `?marka=${resultParse[0]}&yakit=${resultParse[1]}&renk=${resultParse[2]}&vites=${resultParse[3]}&durum=${resultParse[4]}`;
   getCars(url, resultParse);

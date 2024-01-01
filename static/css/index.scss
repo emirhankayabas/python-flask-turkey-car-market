@@ -64,7 +64,6 @@ main {
       font-size: 1.125rem;
       color: #cacaca;
       font-weight: 300;
-      margin-bottom: 1rem;
     }
 
     button.button {
@@ -101,7 +100,14 @@ main {
     #questions {
       &.scroll {
         overflow-y: scroll;
-        max-height: 480px;
+        max-height: 455px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .headline {
+          margin-bottom: 0;
+        }
       }
       .result {
         background: #222;
@@ -111,11 +117,18 @@ main {
         margin-bottom: 1rem;
         width: 99%;
 
+        &:last-child {
+          margin-bottom: 0;
+        }
+
         p {
           margin-bottom: 0.5rem;
           span {
             opacity: 0.75;
             font-weight: 500;
+          }
+          &:last-child {
+            margin-bottom: 0;
           }
         }
       }

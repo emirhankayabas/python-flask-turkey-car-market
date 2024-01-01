@@ -2,14 +2,16 @@ from flask import Flask, render_template, url_for, request
 import pandas as pd
 import json
 
+# Flask uygulamasının oluşturulması
 app = Flask(__name__)
 
-
+# Ana sayfanın oluşturulması
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
+# Veri setinin okunması
 def filter_cars(brand, fuel, color, gear, status):
     data = pd.read_csv("car_market.csv")
 
@@ -27,6 +29,7 @@ def filter_cars(brand, fuel, color, gear, status):
     return data
 
 
+# İsteklerin karşılanması
 @app.route("/api/cars")
 def cars():
     brand = request.args.get("marka")
@@ -38,5 +41,6 @@ def cars():
     filtered_cars = filter_cars(brand, fuel, color, gear, status)
     json_data = filtered_cars.to_json(orient="records")
 
-    # Return the JSON data
+    # JSON formatında veri döndürülmesi
     return json_data
+
